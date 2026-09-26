@@ -43,3 +43,12 @@ it('rejects a constituent response that is a list', function () {
 
     Bloomerang::constituents()->find(1001);
 })->throws(UnexpectedResponse::class);
+
+it('rejects a successful response that is empty or not an object', function (mixed $body) {
+    Http::fake(['bloomerang.test/v2/constituent/1001' => Http::response($body)]);
+
+    Bloomerang::constituents()->find(1001);
+})->throws(UnexpectedResponse::class)->with([
+    'empty' => [''],
+    'a JSON string' => ['"ok"'],
+]);

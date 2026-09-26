@@ -171,3 +171,16 @@ describe('writes', function () {
         Http::assertSentCount(2);
     });
 });
+
+it('waits until the time in a Retry-After date', function () {
+    $this->freezeTime();
+
+    Http::fake(['*' => Http::sequence()
+        ->push(status: 429, headers: ['Retry-After' => now()->addSeconds(12)->toRfc7231String()])
+        ->push(bloomerangFixture('user-current')),
+    ]);
+
+    Bloomerang::inJobMode()->currentUser();
+
+    Sleep::assertSequence([Sleep::for(12)->seconds()]);
+});

@@ -158,6 +158,13 @@ describe('searchByEmail', function () {
 
         expect($matches->map(fn (Constituent $constituent) => $constituent->id)->values()->all())->toBe([1001, 1013]);
     });
+
+    it('finds nobody, without searching, for a blank email', function () {
+        Http::fake();
+
+        expect(Bloomerang::constituents()->searchByEmail('  '))->toBeEmpty();
+        Http::assertNothingSent();
+    });
 });
 
 describe('create', function () {
@@ -184,15 +191,16 @@ describe('create', function () {
         Http::assertSent(fn (Request $request) => $request['MiddleName'] === 'Q' && $request['Type'] === 'Individual');
     });
 
-    it('requires a first and last name', function (string $firstName, string $lastName) {
+    it('requires a first name, last name and email', function (string $firstName, string $lastName, string $email) {
         Http::fake();
 
-        expect(fn () => Bloomerang::constituents()->create($firstName, $lastName, 'someone@example.org'))
+        expect(fn () => Bloomerang::constituents()->create($firstName, $lastName, $email))
             ->toThrow(InvalidArgumentException::class);
 
         Http::assertNothingSent();
     })->with([
-        'no first name' => ['', 'Newperson'],
-        'no last name' => ['Barbara', '  '],
+        'no first name' => ['', 'Newperson', 'someone@example.org'],
+        'no last name' => ['Barbara', '  ', 'someone@example.org'],
+        'no email' => ['Barbara', 'Newperson', ' '],
     ]);
 });
