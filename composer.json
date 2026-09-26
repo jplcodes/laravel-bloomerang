@@ -1,0 +1,63 @@
+{
+    "name": "jplcodes/laravel-bloomerang",
+    "description": "A Laravel client for Bloomerang's REST API v2.",
+    "keywords": [
+        "laravel",
+        "bloomerang",
+        "crm",
+        "nonprofit",
+        "api-client"
+    ],
+    "homepage": "https://github.com/jplcodes/laravel-bloomerang",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "JPL Codes LLC",
+            "homepage": "https://github.com/jplcodes"
+        }
+    ],
+    "require": {
+        "php": "^8.3",
+        "illuminate/contracts": "^13.0",
+        "illuminate/http": "^13.0",
+        "illuminate/support": "^13.0"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.27",
+        "orchestra/testbench": "^11.3",
+        "pestphp/pest": "^4.4 || ^5.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "JplCodes\\Bloomerang\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "JplCodes\\Bloomerang\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "pest",
+        "lint": "pint --test",
+        "format": "pint"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "JplCodes\\Bloomerang\\BloomerangServiceProvider"
+            ],
+            "aliases": {
+                "Bloomerang": "JplCodes\\Bloomerang\\Facades\\Bloomerang"
+            }
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
