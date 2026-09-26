@@ -35,9 +35,9 @@ final class Paginator
                     ...$query,
                     'skip' => (string) $skip,
                     'take' => (string) self::TAKE,
-                ]);
+                ], expectObject: true);
 
-                if (! is_array($page) || ! isset($page['Results']) || ! is_array($page['Results'])) {
+                if (! isset($page['Results']) || ! is_array($page['Results'])) {
                     throw new UnexpectedResponse("Bloomerang sent a page without results for GET {$path}.");
                 }
 

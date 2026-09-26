@@ -30,12 +30,18 @@ final readonly class Household
             throw new UnexpectedResponse('Bloomerang household data is missing a valid Id.');
         }
 
+        $memberIds = $data['MemberIds'] ?? [];
+
+        if (! is_array($memberIds) || ! array_is_list($memberIds) || array_filter($memberIds, fn (mixed $id): bool => ! is_int($id)) !== []) {
+            throw new UnexpectedResponse('Bloomerang household MemberIds must be a list of integers.');
+        }
+
         try {
             return new self(
                 id: $data['Id'],
                 fullName: $data['FullName'] ?? null,
                 headId: $data['HeadId'] ?? null,
-                memberIds: array_map(intval(...), $data['MemberIds'] ?? []),
+                memberIds: $memberIds,
                 raw: $data,
             );
         } catch (TypeError) {

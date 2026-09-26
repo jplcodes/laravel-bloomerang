@@ -25,7 +25,7 @@ final class Constituents
 
     public function find(int $id): Constituent
     {
-        $data = $this->transport->send($this->mode, 'GET', "constituent/{$id}");
+        $data = $this->transport->send($this->mode, 'GET', "constituent/{$id}", expectObject: true);
 
         return Constituent::fromArray($data);
     }
@@ -81,6 +81,10 @@ final class Constituents
     {
         $normalized = strtolower(trim($email));
 
+        if ($normalized === '') {
+            return new Collection;
+        }
+
         return $this->search(trim($email))
             ->filter(fn (Constituent|Household $item): bool => $item instanceof Constituent
                 && $item->primaryEmail !== null
@@ -97,9 +101,10 @@ final class Constituents
     {
         $firstName = trim($firstName);
         $lastName = trim($lastName);
+        $email = trim($email);
 
-        if ($firstName === '' || $lastName === '') {
-            throw new InvalidArgumentException('A first and last name are required to create a constituent.');
+        if ($firstName === '' || $lastName === '' || $email === '') {
+            throw new InvalidArgumentException('A first name, last name and email are required to create a constituent.');
         }
 
         $payload = array_replace_recursive([
@@ -108,12 +113,12 @@ final class Constituents
             'LastName' => $lastName,
             'PrimaryEmail' => [
                 'Type' => 'Home',
-                'Value' => trim($email),
+                'Value' => $email,
                 'IsPrimary' => true,
             ],
         ], $attributes);
 
-        $data = $this->transport->send($this->mode, 'POST', 'constituent', [], $payload);
+        $data = $this->transport->send($this->mode, 'POST', 'constituent', [], $payload, expectObject: true);
 
         return Constituent::fromArray($data);
     }

@@ -48,12 +48,15 @@ final class Transport
     ) {}
 
     /**
+     * Send a call and return the decoded JSON. With $expectObject, anything other than a JSON object
+     * (an empty body, a list, a scalar) is rejected as an unexpected response.
+     *
      * @param  array<string, mixed>  $query
      * @param  array<string, mixed>|null  $body
      *
      * @throws BloomerangException
      */
-    public function send(CallMode $mode, string $method, string $path, array $query = [], ?array $body = null): mixed
+    public function send(CallMode $mode, string $method, string $path, array $query = [], ?array $body = null, bool $expectObject = false): mixed
     {
         $this->guardPath($path);
 
@@ -98,7 +101,7 @@ final class Transport
             if ($response->successful()) {
                 $this->log(true, $correlationId, $mode, $method, $normalizedPath, $query, $status, $attempt, $durationMs);
 
-                return $this->decode($response, $method, $normalizedPath, $correlationId);
+                return $this->decode($response, $method, $normalizedPath, $correlationId, $expectObject);
             }
 
             $this->log(false, $correlationId, $mode, $method, $normalizedPath, $query, $status, $attempt, $durationMs);
@@ -150,17 +153,14 @@ final class Transport
     /**
      * @throws UnexpectedResponse
      */
-    private function decode(Response $response, string $method, string $path, string $correlationId): mixed
+    private function decode(Response $response, string $method, string $path, string $correlationId, bool $expectObject): mixed
     {
         $body = $response->body();
+        $decoded = $body === '' ? null : json_decode($body, true);
+        $unreadable = $body !== '' && json_last_error() !== JSON_ERROR_NONE;
+        $notAnObject = ! is_array($decoded) || ($decoded !== [] && array_is_list($decoded));
 
-        if ($body === '') {
-            return null;
-        }
-
-        $decoded = json_decode($body, true);
-
-        if (json_last_error() !== JSON_ERROR_NONE) {
+        if ($unreadable || ($expectObject && $notAnObject)) {
             throw new UnexpectedResponse(
                 "Bloomerang sent a response that could not be read for {$method} {$path} [correlation id {$correlationId}]",
                 $correlationId,
@@ -235,7 +235,7 @@ final class Transport
             return null;
         }
 
-        return max(0, $seconds);
+        return max(0, (int) ceil($seconds));
     }
 
     private function durationInMs(float $startedAt): int

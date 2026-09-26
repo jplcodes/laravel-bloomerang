@@ -72,6 +72,7 @@ Bloomerang::inJobMode()->constituents()->findMany($ids)->each(...);
 Bloomerang::constituents()->search('Ada');
 
 // Only records whose primary email is exactly this address (ignoring case): zero, one, or several.
+// Filters the first 200 search results, which is plenty for an email address.
 Bloomerang::constituents()->searchByEmail('ada@example.org');
 
 // Creates an individual. First and last name are required.
@@ -106,6 +107,8 @@ Bloomerang::inJobMode()->constituents()->find($id);   // job mode
 ```
 
 In job mode the client waits as long as a 429's `Retry-After` asks (capped at 60 s), and otherwise backs off for about 1, 2, then 4 seconds. It never retries 401, 403, 404, or other 4xx responses.
+
+With the defaults, one job-mode call can take a little over two minutes before it gives up (four 30-second attempts plus the waits), or longer if Bloomerang keeps answering 429. Give jobs that use job mode a `$timeout` above that, or lower the timeouts in the config.
 
 **Writes are careful.** `POST` and `PATCH` requests (including `create()`) are retried only after a 429, which Bloomerang rejects before doing anything. They are never retried after a timeout or a server error, because the first attempt may have succeeded and a retry could create a duplicate record.
 

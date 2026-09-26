@@ -40,7 +40,7 @@ final class Bloomerang
 
     public function currentUser(): User
     {
-        $data = $this->transport()->send($this->mode, 'GET', 'user/current');
+        $data = $this->transport()->send($this->mode, 'GET', 'user/current', expectObject: true);
 
         return User::fromArray($data);
     }
@@ -82,18 +82,9 @@ final class Bloomerang
         return $this->mode;
     }
 
-    public function withToken(string $token): static
+    public function withToken(#[\SensitiveParameter] string $token): static
     {
-        return new self(
-            $this->http,
-            $this->logger,
-            $this->baseUrl,
-            $this->requestModeConfig,
-            $this->jobModeConfig,
-            $this->loggingEnabled,
-            new BearerToken($token),
-            $this->mode,
-        );
+        return $this->with(authenticator: new BearerToken($token));
     }
 
     public function baseUrl(): string
@@ -103,6 +94,11 @@ final class Bloomerang
 
     private function withMode(CallMode $mode): static
     {
+        return $this->with(mode: $mode);
+    }
+
+    private function with(?Authenticator $authenticator = null, ?CallMode $mode = null): static
+    {
         return new self(
             $this->http,
             $this->logger,
@@ -110,8 +106,8 @@ final class Bloomerang
             $this->requestModeConfig,
             $this->jobModeConfig,
             $this->loggingEnabled,
-            $this->authenticator,
-            $mode,
+            $authenticator ?? $this->authenticator,
+            $mode ?? $this->mode,
         );
     }
 
