@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Sleep;
 use Illuminate\Support\Str;
+use JplCodes\Bloomerang\Auth\ApiKey;
+use JplCodes\Bloomerang\Auth\BearerToken;
 use JplCodes\Bloomerang\Exceptions\BloomerangException;
 use JplCodes\Bloomerang\Facades\Bloomerang;
 use JplCodes\Bloomerang\Tests\TestCase;
@@ -118,4 +120,25 @@ it('writes to the configured channel only when logging is on', function () {
     Bloomerang::currentUser();
 
     expect($this->logHandler()->getRecords())->toBeEmpty();
+});
+
+it('keeps a query string written into the path out of logs and exceptions', function () {
+    Http::fake(['*' => Http::response(status: 500)]);
+
+    try {
+        Bloomerang::request('GET', 'constituents/search?search=ada@example.org');
+    } catch (BloomerangException $exception) {
+        expect($exception->getMessage())->not->toContain('ada@example.org')
+            ->and(implode("\n", loggedText($this)))->not->toContain('ada@example.org');
+
+        return;
+    }
+
+    $this->fail('No exception was thrown.');
+});
+
+it('hides the credentials when they are dumped', function () {
+    expect(print_r(new ApiKey(TestCase::API_KEY), true))->not->toContain(TestCase::API_KEY)
+        ->and(var_export(new ApiKey(TestCase::API_KEY), true))->not->toContain(TestCase::API_KEY)
+        ->and(print_r(new BearerToken('an-oauth-access-token'), true))->not->toContain('an-oauth-access-token');
 });

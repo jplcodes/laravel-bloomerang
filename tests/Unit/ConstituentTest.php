@@ -67,3 +67,13 @@ it('rejects data without an id', function () {
 it('rejects a membership value that is not a list', function () {
     Constituent::fromArray([...bloomerangFixture('constituent'), 'Membership' => 'Current']);
 })->throws(UnexpectedResponse::class);
+
+it('rejects fields of the wrong type', function () {
+    Constituent::fromArray([...bloomerangFixture('constituent'), 'FirstName' => ['not', 'a', 'string']]);
+})->throws(UnexpectedResponse::class);
+
+it('rejects a membership entry with fields of the wrong type', function () {
+    $constituent = Constituent::fromArray([...bloomerangFixture('constituent'), 'Membership' => [['MembershipStatus' => ['Current']]]]);
+
+    $constituent->memberships();
+})->throws(UnexpectedResponse::class);

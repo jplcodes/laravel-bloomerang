@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
+use JplCodes\Bloomerang\Exceptions\UnexpectedResponse;
 use JplCodes\Bloomerang\Facades\Bloomerang;
 
 it('returns the Bloomerang user who owns the key', function () {
@@ -19,3 +20,9 @@ it('returns the Bloomerang user who owns the key', function () {
     Http::assertSent(fn (Request $request) => $request->method() === 'GET'
         && $request->url() === 'https://bloomerang.test/v2/user/current');
 });
+
+it('rejects a user with fields of the wrong type', function () {
+    Http::fake(['bloomerang.test/v2/user/current' => Http::response([...bloomerangFixture('user-current'), 'Name' => ['not a string']])]);
+
+    Bloomerang::currentUser();
+})->throws(UnexpectedResponse::class);
