@@ -128,7 +128,9 @@ final class Transport
      */
     private function attempt(CallMode $mode, array $modeConfig, string $method, string $url, array $query, ?array $body): Response
     {
+        // Never follow redirects: Guzzle would carry the X-API-KEY header to whatever host a redirect names.
         $request = $this->http->acceptJson()
+            ->withoutRedirecting()
             ->timeout((float) ($modeConfig['timeout'] ?? 30))
             ->connectTimeout((float) ($modeConfig['connect_timeout'] ?? 5));
 

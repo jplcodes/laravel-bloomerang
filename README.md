@@ -122,7 +122,7 @@ Everything extends `JplCodes\Bloomerang\Exceptions\BloomerangException`, which c
 | `NotFound` | 404 |
 | `RateLimited` | 429 (`retryAfterSeconds` when Bloomerang sent one) |
 | `ServerError` | 5xx |
-| `RequestRejected` | Any other 4xx |
+| `RequestRejected` | Any other 4xx, or a redirect |
 | `ConnectionFailed` | A timeout or network failure |
 | `UnexpectedResponse` | The response isn't JSON, or isn't the expected shape |
 | `MissingCredentials` | No API key or token is configured |
@@ -146,7 +146,7 @@ Bloomerang::inJobMode()->request('PUT', "constituent/{$id}", body: [...]);
 Bloomerang::paginate('funds')->each(...);
 ```
 
-Paths are relative to the base URL. Full URLs are refused, so the key is never sent anywhere else.
+Paths are relative to the base URL. Full URLs are refused and redirects are not followed (a 3xx becomes `RequestRejected`), so the key is never sent anywhere else.
 
 ## OAuth access tokens
 
