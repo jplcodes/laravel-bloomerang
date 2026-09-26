@@ -1,0 +1,69 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          coverage: none
+
+      - run: composer update --no-interaction --no-progress --prefer-dist
+
+      - run: composer lint
+
+  tests:
+    name: tests (PHP ${{ matrix.php }}, ${{ matrix.dependencies }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.3', '8.4', '8.5']
+        dependencies: [highest]
+        include:
+          - php: '8.3'
+            dependencies: lowest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+
+      - name: Get the Composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/cache@v6
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-php-${{ matrix.php }}-${{ matrix.dependencies }}-composer-${{ hashFiles('composer.json') }}
+          restore-keys: ${{ runner.os }}-php-${{ matrix.php }}-${{ matrix.dependencies }}-composer-
+
+      # The package ships no lock file, so each PHP version resolves its own dependencies
+      # (Pest 4 on PHP 8.3, Pest 5 from 8.4).
+      - run: composer update --no-interaction --no-progress --prefer-dist ${{ matrix.dependencies == 'lowest' && '--prefer-lowest' || '' }}
+
+      - run: composer test
