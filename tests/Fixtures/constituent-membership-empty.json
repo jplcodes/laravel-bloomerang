@@ -1,0 +1,39 @@
+{
+    "Id": 1003,
+    "AccountNumber": 3,
+    "IsInHousehold": false,
+    "IsHeadOfHousehold": false,
+    "IsFavorite": false,
+    "Type": "Individual",
+    "Status": "Active",
+    "FirstName": "Alan",
+    "LastName": "Placeholder",
+    "FullName": "Alan Placeholder",
+    "InformalName": "Alan",
+    "FormalName": "Alan Placeholder",
+    "EnvelopeName": "Alan Placeholder",
+    "RecognitionName": "Alan Placeholder",
+    "EmailInterestType": "All",
+    "PreferredCommunicationChannel": "Email",
+    "EmailIds": [
+        501003
+    ],
+    "PhoneIds": [],
+    "AddressIds": [],
+    "EngagementScore": "Medium",
+    "AuditTrail": {
+        "CreatedDate": "2024-03-04T15:20:00Z",
+        "CreatedName": "Example Staff User",
+        "LastModifiedDate": "2026-01-12T09:45:00Z",
+        "LastModifiedName": "Example Staff User"
+    },
+    "PrimaryEmail": {
+        "Id": 501003,
+        "AccountId": 1003,
+        "Type": "Home",
+        "Value": "alan@example.org",
+        "IsPrimary": true,
+        "IsBad": false
+    },
+    "Membership": []
+}

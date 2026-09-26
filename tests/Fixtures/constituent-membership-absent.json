@@ -1,0 +1,38 @@
+{
+    "Id": 1004,
+    "AccountNumber": 4,
+    "IsInHousehold": false,
+    "IsHeadOfHousehold": false,
+    "IsFavorite": false,
+    "Type": "Individual",
+    "Status": "Active",
+    "FirstName": "Edsger",
+    "LastName": "Demo",
+    "FullName": "Edsger Demo",
+    "InformalName": "Edsger",
+    "FormalName": "Edsger Demo",
+    "EnvelopeName": "Edsger Demo",
+    "RecognitionName": "Edsger Demo",
+    "EmailInterestType": "All",
+    "PreferredCommunicationChannel": "Email",
+    "EmailIds": [
+        501004
+    ],
+    "PhoneIds": [],
+    "AddressIds": [],
+    "EngagementScore": "Medium",
+    "AuditTrail": {
+        "CreatedDate": "2024-03-04T15:20:00Z",
+        "CreatedName": "Example Staff User",
+        "LastModifiedDate": "2026-01-12T09:45:00Z",
+        "LastModifiedName": "Example Staff User"
+    },
+    "PrimaryEmail": {
+        "Id": 501004,
+        "AccountId": 1004,
+        "Type": "Home",
+        "Value": "edsger@example.org",
+        "IsPrimary": true,
+        "IsBad": false
+    }
+}

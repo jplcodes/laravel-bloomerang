@@ -1,0 +1,17 @@
+{
+    "Id": 3001,
+    "Name": "Example Integration User",
+    "Email": "integration@example.org",
+    "IsActive": true,
+    "SendTaskEmails": false,
+    "UserName": "integration.user",
+    "PendingEmail": null,
+    "BccEmail": null,
+    "PermissionLevel": "Standard",
+    "Phone": null,
+    "UserTimeZone": {
+        "Id": "Central Standard Time",
+        "Name": "Central Standard Time",
+        "UtcOffset": "-06:00:00"
+    }
+}

@@ -1,0 +1,47 @@
+{
+    "Id": 1001,
+    "AccountNumber": 1,
+    "IsInHousehold": false,
+    "IsHeadOfHousehold": false,
+    "IsFavorite": false,
+    "Type": "Individual",
+    "Status": "Active",
+    "FirstName": "Ada",
+    "LastName": "Example",
+    "FullName": "Ada Example",
+    "InformalName": "Ada",
+    "FormalName": "Ada Example",
+    "EnvelopeName": "Ada Example",
+    "RecognitionName": "Ada Example",
+    "EmailInterestType": "All",
+    "PreferredCommunicationChannel": "Email",
+    "EmailIds": [
+        501001
+    ],
+    "PhoneIds": [],
+    "AddressIds": [],
+    "EngagementScore": "Medium",
+    "AuditTrail": {
+        "CreatedDate": "2024-03-04T15:20:00Z",
+        "CreatedName": "Example Staff User",
+        "LastModifiedDate": "2026-01-12T09:45:00Z",
+        "LastModifiedName": "Example Staff User"
+    },
+    "PrimaryEmail": {
+        "Id": 501001,
+        "AccountId": 1001,
+        "Type": "Home",
+        "Value": "ada@example.org",
+        "IsPrimary": true,
+        "IsBad": false
+    },
+    "Membership": [
+        {
+            "MembershipScheduleId": 9001,
+            "MembershipProgramName": "Example Membership Program",
+            "MembershipLevelName": "Annual",
+            "MembershipStatus": "Current",
+            "MembershipRenewalDate": "2027-03-01"
+        }
+    ]
+}

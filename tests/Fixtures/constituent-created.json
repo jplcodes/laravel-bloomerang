@@ -1,0 +1,38 @@
+{
+    "Id": 1005,
+    "AccountNumber": 5,
+    "IsInHousehold": false,
+    "IsHeadOfHousehold": false,
+    "IsFavorite": false,
+    "Type": "Individual",
+    "Status": "Active",
+    "FirstName": "Barbara",
+    "LastName": "Newperson",
+    "FullName": "Barbara Newperson",
+    "InformalName": "Barbara",
+    "FormalName": "Barbara Newperson",
+    "EnvelopeName": "Barbara Newperson",
+    "RecognitionName": "Barbara Newperson",
+    "EmailInterestType": "All",
+    "PreferredCommunicationChannel": "Email",
+    "EmailIds": [
+        501005
+    ],
+    "PhoneIds": [],
+    "AddressIds": [],
+    "EngagementScore": "Medium",
+    "AuditTrail": {
+        "CreatedDate": "2024-03-04T15:20:00Z",
+        "CreatedName": "Example Staff User",
+        "LastModifiedDate": "2026-01-12T09:45:00Z",
+        "LastModifiedName": "Example Staff User"
+    },
+    "PrimaryEmail": {
+        "Id": 501005,
+        "AccountId": 1005,
+        "Type": "Home",
+        "Value": "barbara@example.org",
+        "IsPrimary": true,
+        "IsBad": false
+    }
+}
