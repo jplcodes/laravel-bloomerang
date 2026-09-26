@@ -52,3 +52,18 @@ it('rejects a successful response that is empty or not an object', function (mix
     'empty' => [''],
     'a JSON string' => ['"ok"'],
 ]);
+
+it('does not follow redirects, so the key never leaves the configured host', function () {
+    Http::fake(['bloomerang.test/v2/user/current' => Http::response(status: 302, headers: ['Location' => 'https://elsewhere.test/'])]);
+
+    try {
+        Bloomerang::currentUser();
+    } catch (RequestRejected $exception) {
+        expect($exception->status)->toBe(302);
+        Http::assertSentCount(1);
+
+        return;
+    }
+
+    $this->fail('RequestRejected was not thrown.');
+});
