@@ -58,8 +58,10 @@ final class Transport
         $this->guardPath($path);
 
         $method = strtoupper($method);
-        $normalizedPath = ltrim($path, '/');
-        $url = rtrim($this->baseUrl, '/').'/'.$normalizedPath;
+        $url = rtrim($this->baseUrl, '/').'/'.ltrim($path, '/');
+
+        // Logs and exception messages never carry a query string, which can hold an email address.
+        $normalizedPath = Str::before(ltrim($path, '/'), '?');
 
         $modeConfig = $mode === CallMode::Job ? $this->jobModeConfig : $this->requestModeConfig;
         $maxAttempts = $mode === CallMode::Job ? 1 + (int) ($modeConfig['retries'] ?? 0) : 1;
@@ -124,13 +126,13 @@ final class Transport
     private function attempt(CallMode $mode, array $modeConfig, string $method, string $url, array $query, ?array $body): Response
     {
         $request = $this->http->acceptJson()
-            ->timeout((int) ($modeConfig['timeout'] ?? 30))
-            ->connectTimeout((int) ($modeConfig['connect_timeout'] ?? 5));
+            ->timeout((float) ($modeConfig['timeout'] ?? 30))
+            ->connectTimeout((float) ($modeConfig['connect_timeout'] ?? 5));
 
         $request = $this->authenticator->authenticate($request);
 
         if ($body !== null) {
-            $request = $request->withBody(json_encode($body), 'application/json');
+            $request = $request->withBody(json_encode($body, JSON_THROW_ON_ERROR), 'application/json');
         }
 
         $options = $query !== [] ? ['query' => $query] : [];

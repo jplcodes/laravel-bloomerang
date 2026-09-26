@@ -3,6 +3,7 @@
 namespace JplCodes\Bloomerang\Data;
 
 use JplCodes\Bloomerang\Exceptions\UnexpectedResponse;
+use TypeError;
 
 /**
  * A Bloomerang household, grouping several constituents together.
@@ -29,12 +30,16 @@ final readonly class Household
             throw new UnexpectedResponse('Bloomerang household data is missing a valid Id.');
         }
 
-        return new self(
-            id: $data['Id'],
-            fullName: $data['FullName'] ?? null,
-            headId: $data['HeadId'] ?? null,
-            memberIds: array_map(intval(...), $data['MemberIds'] ?? []),
-            raw: $data,
-        );
+        try {
+            return new self(
+                id: $data['Id'],
+                fullName: $data['FullName'] ?? null,
+                headId: $data['HeadId'] ?? null,
+                memberIds: array_map(intval(...), $data['MemberIds'] ?? []),
+                raw: $data,
+            );
+        } catch (TypeError) {
+            throw new UnexpectedResponse('Bloomerang household data has a field of the wrong type.');
+        }
     }
 }

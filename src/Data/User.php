@@ -3,6 +3,7 @@
 namespace JplCodes\Bloomerang\Data;
 
 use JplCodes\Bloomerang\Exceptions\UnexpectedResponse;
+use TypeError;
 
 /**
  * The Bloomerang user who owns the credentials used for a call.
@@ -28,14 +29,18 @@ final readonly class User
             throw new UnexpectedResponse('Bloomerang user data is missing a valid Id.');
         }
 
-        return new self(
-            id: $data['Id'],
-            name: $data['Name'] ?? null,
-            email: $data['Email'] ?? null,
-            userName: $data['UserName'] ?? null,
-            isActive: $data['IsActive'] ?? null,
-            permissionLevel: $data['PermissionLevel'] ?? null,
-            raw: $data,
-        );
+        try {
+            return new self(
+                id: $data['Id'],
+                name: $data['Name'] ?? null,
+                email: $data['Email'] ?? null,
+                userName: $data['UserName'] ?? null,
+                isActive: $data['IsActive'] ?? null,
+                permissionLevel: $data['PermissionLevel'] ?? null,
+                raw: $data,
+            );
+        } catch (TypeError) {
+            throw new UnexpectedResponse('Bloomerang user data has a field of the wrong type.');
+        }
     }
 }

@@ -4,6 +4,7 @@ namespace JplCodes\Bloomerang\Data;
 
 use JplCodes\Bloomerang\Exceptions\MembershipDataMissing;
 use JplCodes\Bloomerang\Exceptions\UnexpectedResponse;
+use TypeError;
 
 /**
  * A Bloomerang individual or organization constituent.
@@ -35,18 +36,22 @@ final readonly class Constituent
             throw new UnexpectedResponse('Bloomerang constituent data is missing a valid Id.');
         }
 
-        return new self(
-            id: $data['Id'],
-            accountNumber: $data['AccountNumber'] ?? null,
-            type: $data['Type'] ?? null,
-            status: $data['Status'] ?? null,
-            firstName: $data['FirstName'] ?? null,
-            lastName: $data['LastName'] ?? null,
-            fullName: $data['FullName'] ?? null,
-            primaryEmail: $data['PrimaryEmail']['Value'] ?? null,
-            membershipData: self::membershipDataFrom($data),
-            raw: $data,
-        );
+        try {
+            return new self(
+                id: $data['Id'],
+                accountNumber: $data['AccountNumber'] ?? null,
+                type: $data['Type'] ?? null,
+                status: $data['Status'] ?? null,
+                firstName: $data['FirstName'] ?? null,
+                lastName: $data['LastName'] ?? null,
+                fullName: $data['FullName'] ?? null,
+                primaryEmail: $data['PrimaryEmail']['Value'] ?? null,
+                membershipData: self::membershipDataFrom($data),
+                raw: $data,
+            );
+        } catch (TypeError) {
+            throw new UnexpectedResponse('Bloomerang constituent data has a field of the wrong type.');
+        }
     }
 
     /**

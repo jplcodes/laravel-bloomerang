@@ -3,7 +3,9 @@
 namespace JplCodes\Bloomerang\Data;
 
 use Carbon\CarbonImmutable;
+use JplCodes\Bloomerang\Exceptions\UnexpectedResponse;
 use Throwable;
+use TypeError;
 
 /**
  * One of a constituent's membership schedules.
@@ -24,14 +26,18 @@ final readonly class Membership
      */
     public static function fromArray(array $data): self
     {
-        return new self(
-            scheduleId: $data['MembershipScheduleId'] ?? null,
-            programName: $data['MembershipProgramName'] ?? null,
-            levelName: $data['MembershipLevelName'] ?? null,
-            status: $data['MembershipStatus'] ?? null,
-            renewalDate: $data['MembershipRenewalDate'] ?? null,
-            raw: $data,
-        );
+        try {
+            return new self(
+                scheduleId: $data['MembershipScheduleId'] ?? null,
+                programName: $data['MembershipProgramName'] ?? null,
+                levelName: $data['MembershipLevelName'] ?? null,
+                status: $data['MembershipStatus'] ?? null,
+                renewalDate: $data['MembershipRenewalDate'] ?? null,
+                raw: $data,
+            );
+        } catch (TypeError) {
+            throw new UnexpectedResponse('Bloomerang membership data has a field of the wrong type.');
+        }
     }
 
     public function isCurrent(): bool
