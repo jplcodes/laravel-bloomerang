@@ -1,0 +1,84 @@
+{
+    "Total": 4200,
+    "TotalFiltered": 2,
+    "Start": 0,
+    "ResultCount": 2,
+    "Results": [
+        {
+            "Id": 1010,
+            "AccountNumber": 10,
+            "IsInHousehold": false,
+            "IsHeadOfHousehold": false,
+            "IsFavorite": false,
+            "Type": "Individual",
+            "Status": "Active",
+            "FirstName": "Ada",
+            "LastName": "Longer",
+            "FullName": "Ada Longer",
+            "InformalName": "Ada",
+            "FormalName": "Ada Longer",
+            "EnvelopeName": "Ada Longer",
+            "RecognitionName": "Ada Longer",
+            "EmailInterestType": "All",
+            "PreferredCommunicationChannel": "Email",
+            "EmailIds": [
+                501010
+            ],
+            "PhoneIds": [],
+            "AddressIds": [],
+            "EngagementScore": "Medium",
+            "AuditTrail": {
+                "CreatedDate": "2024-03-04T15:20:00Z",
+                "CreatedName": "Example Staff User",
+                "LastModifiedDate": "2026-01-12T09:45:00Z",
+                "LastModifiedName": "Example Staff User"
+            },
+            "PrimaryEmail": {
+                "Id": 501010,
+                "AccountId": 1010,
+                "Type": "Home",
+                "Value": "ada@example.org.uk",
+                "IsPrimary": true,
+                "IsBad": false
+            }
+        },
+        {
+            "Id": 1011,
+            "AccountNumber": 11,
+            "IsInHousehold": false,
+            "IsHeadOfHousehold": false,
+            "IsFavorite": false,
+            "Type": "Individual",
+            "Status": "Active",
+            "FirstName": "Ada",
+            "LastName": "Prefix",
+            "FullName": "Ada Prefix",
+            "InformalName": "Ada",
+            "FormalName": "Ada Prefix",
+            "EnvelopeName": "Ada Prefix",
+            "RecognitionName": "Ada Prefix",
+            "EmailInterestType": "All",
+            "PreferredCommunicationChannel": "Email",
+            "EmailIds": [
+                501011
+            ],
+            "PhoneIds": [],
+            "AddressIds": [],
+            "EngagementScore": "Medium",
+            "AuditTrail": {
+                "CreatedDate": "2024-03-04T15:20:00Z",
+                "CreatedName": "Example Staff User",
+                "LastModifiedDate": "2026-01-12T09:45:00Z",
+                "LastModifiedName": "Example Staff User"
+            },
+            "PrimaryEmail": {
+                "Id": 501011,
+                "AccountId": 1011,
+                "Type": "Home",
+                "Value": "not-ada@example.org",
+                "IsPrimary": true,
+                "IsBad": false
+            }
+        }
+    ]
+}

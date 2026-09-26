@@ -1,0 +1,137 @@
+{
+    "Total": 4200,
+    "TotalFiltered": 4,
+    "Start": 0,
+    "ResultCount": 4,
+    "Results": [
+        {
+            "Id": 1001,
+            "AccountNumber": 1,
+            "IsInHousehold": false,
+            "IsHeadOfHousehold": false,
+            "IsFavorite": false,
+            "Type": "Individual",
+            "Status": "Active",
+            "FirstName": "Ada",
+            "LastName": "Example",
+            "FullName": "Ada Example",
+            "InformalName": "Ada",
+            "FormalName": "Ada Example",
+            "EnvelopeName": "Ada Example",
+            "RecognitionName": "Ada Example",
+            "EmailInterestType": "All",
+            "PreferredCommunicationChannel": "Email",
+            "EmailIds": [
+                501001
+            ],
+            "PhoneIds": [],
+            "AddressIds": [],
+            "EngagementScore": "Medium",
+            "AuditTrail": {
+                "CreatedDate": "2024-03-04T15:20:00Z",
+                "CreatedName": "Example Staff User",
+                "LastModifiedDate": "2026-01-12T09:45:00Z",
+                "LastModifiedName": "Example Staff User"
+            },
+            "PrimaryEmail": {
+                "Id": 501001,
+                "AccountId": 1001,
+                "Type": "Home",
+                "Value": "Ada@Example.org ",
+                "IsPrimary": true,
+                "IsBad": false
+            }
+        },
+        {
+            "Id": 1010,
+            "AccountNumber": 10,
+            "IsInHousehold": false,
+            "IsHeadOfHousehold": false,
+            "IsFavorite": false,
+            "Type": "Individual",
+            "Status": "Active",
+            "FirstName": "Ada",
+            "LastName": "Longer",
+            "FullName": "Ada Longer",
+            "InformalName": "Ada",
+            "FormalName": "Ada Longer",
+            "EnvelopeName": "Ada Longer",
+            "RecognitionName": "Ada Longer",
+            "EmailInterestType": "All",
+            "PreferredCommunicationChannel": "Email",
+            "EmailIds": [
+                501010
+            ],
+            "PhoneIds": [],
+            "AddressIds": [],
+            "EngagementScore": "Medium",
+            "AuditTrail": {
+                "CreatedDate": "2024-03-04T15:20:00Z",
+                "CreatedName": "Example Staff User",
+                "LastModifiedDate": "2026-01-12T09:45:00Z",
+                "LastModifiedName": "Example Staff User"
+            },
+            "PrimaryEmail": {
+                "Id": 501010,
+                "AccountId": 1010,
+                "Type": "Home",
+                "Value": "ada@example.org.uk",
+                "IsPrimary": true,
+                "IsBad": false
+            }
+        },
+        {
+            "Id": 2001,
+            "AccountNumber": 1001,
+            "Type": "Household",
+            "Status": "Active",
+            "FullName": "The Example Household",
+            "SortName": "The Example Household",
+            "InformalName": "The Example Household",
+            "FormalName": "The Example Household",
+            "EnvelopeName": "The Example Household",
+            "RecognitionName": "The Example Household",
+            "HeadId": 1001,
+            "MemberIds": [
+                1001,
+                1012
+            ],
+            "IsFavorite": false,
+            "EngagementScore": "Low",
+            "AuditTrail": {
+                "CreatedDate": "2024-03-04T15:20:00Z",
+                "CreatedName": "Example Staff User",
+                "LastModifiedDate": "2026-01-12T09:45:00Z",
+                "LastModifiedName": "Example Staff User"
+            }
+        },
+        {
+            "Id": 1012,
+            "AccountNumber": 12,
+            "IsInHousehold": false,
+            "IsHeadOfHousehold": false,
+            "IsFavorite": false,
+            "Type": "Individual",
+            "Status": "Active",
+            "FirstName": "Charles",
+            "LastName": "Example",
+            "FullName": "Charles Example",
+            "InformalName": "Charles",
+            "FormalName": "Charles Example",
+            "EnvelopeName": "Charles Example",
+            "RecognitionName": "Charles Example",
+            "EmailInterestType": "All",
+            "PreferredCommunicationChannel": "Email",
+            "EmailIds": [],
+            "PhoneIds": [],
+            "AddressIds": [],
+            "EngagementScore": "Medium",
+            "AuditTrail": {
+                "CreatedDate": "2024-03-04T15:20:00Z",
+                "CreatedName": "Example Staff User",
+                "LastModifiedDate": "2026-01-12T09:45:00Z",
+                "LastModifiedName": "Example Staff User"
+            }
+        }
+    ]
+}

@@ -1,0 +1,122 @@
+{
+    "Total": 4200,
+    "TotalFiltered": 3,
+    "Start": 0,
+    "ResultCount": 3,
+    "Results": [
+        {
+            "Id": 1001,
+            "AccountNumber": 1,
+            "IsInHousehold": false,
+            "IsHeadOfHousehold": false,
+            "IsFavorite": false,
+            "Type": "Individual",
+            "Status": "Active",
+            "FirstName": "Ada",
+            "LastName": "Example",
+            "FullName": "Ada Example",
+            "InformalName": "Ada",
+            "FormalName": "Ada Example",
+            "EnvelopeName": "Ada Example",
+            "RecognitionName": "Ada Example",
+            "EmailInterestType": "All",
+            "PreferredCommunicationChannel": "Email",
+            "EmailIds": [
+                501001
+            ],
+            "PhoneIds": [],
+            "AddressIds": [],
+            "EngagementScore": "Medium",
+            "AuditTrail": {
+                "CreatedDate": "2024-03-04T15:20:00Z",
+                "CreatedName": "Example Staff User",
+                "LastModifiedDate": "2026-01-12T09:45:00Z",
+                "LastModifiedName": "Example Staff User"
+            },
+            "PrimaryEmail": {
+                "Id": 501001,
+                "AccountId": 1001,
+                "Type": "Home",
+                "Value": "ada@example.org",
+                "IsPrimary": true,
+                "IsBad": false
+            }
+        },
+        {
+            "Id": 1013,
+            "AccountNumber": 13,
+            "IsInHousehold": false,
+            "IsHeadOfHousehold": false,
+            "IsFavorite": false,
+            "Type": "Individual",
+            "Status": "Active",
+            "FirstName": "A.",
+            "LastName": "Example",
+            "FullName": "A. Example",
+            "InformalName": "A.",
+            "FormalName": "A. Example",
+            "EnvelopeName": "A. Example",
+            "RecognitionName": "A. Example",
+            "EmailInterestType": "All",
+            "PreferredCommunicationChannel": "Email",
+            "EmailIds": [
+                501013
+            ],
+            "PhoneIds": [],
+            "AddressIds": [],
+            "EngagementScore": "Medium",
+            "AuditTrail": {
+                "CreatedDate": "2024-03-04T15:20:00Z",
+                "CreatedName": "Example Staff User",
+                "LastModifiedDate": "2026-01-12T09:45:00Z",
+                "LastModifiedName": "Example Staff User"
+            },
+            "PrimaryEmail": {
+                "Id": 501013,
+                "AccountId": 1013,
+                "Type": "Home",
+                "Value": "ADA@EXAMPLE.ORG",
+                "IsPrimary": true,
+                "IsBad": false
+            }
+        },
+        {
+            "Id": 1010,
+            "AccountNumber": 10,
+            "IsInHousehold": false,
+            "IsHeadOfHousehold": false,
+            "IsFavorite": false,
+            "Type": "Individual",
+            "Status": "Active",
+            "FirstName": "Ada",
+            "LastName": "Longer",
+            "FullName": "Ada Longer",
+            "InformalName": "Ada",
+            "FormalName": "Ada Longer",
+            "EnvelopeName": "Ada Longer",
+            "RecognitionName": "Ada Longer",
+            "EmailInterestType": "All",
+            "PreferredCommunicationChannel": "Email",
+            "EmailIds": [
+                501010
+            ],
+            "PhoneIds": [],
+            "AddressIds": [],
+            "EngagementScore": "Medium",
+            "AuditTrail": {
+                "CreatedDate": "2024-03-04T15:20:00Z",
+                "CreatedName": "Example Staff User",
+                "LastModifiedDate": "2026-01-12T09:45:00Z",
+                "LastModifiedName": "Example Staff User"
+            },
+            "PrimaryEmail": {
+                "Id": 501010,
+                "AccountId": 1010,
+                "Type": "Home",
+                "Value": "ada@example.org.uk",
+                "IsPrimary": true,
+                "IsBad": false
+            }
+        }
+    ]
+}

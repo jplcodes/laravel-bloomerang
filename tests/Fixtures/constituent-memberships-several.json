@@ -1,0 +1,61 @@
+{
+    "Id": 1002,
+    "AccountNumber": 2,
+    "IsInHousehold": false,
+    "IsHeadOfHousehold": false,
+    "IsFavorite": false,
+    "Type": "Individual",
+    "Status": "Active",
+    "FirstName": "Grace",
+    "LastName": "Sample",
+    "FullName": "Grace Sample",
+    "InformalName": "Grace",
+    "FormalName": "Grace Sample",
+    "EnvelopeName": "Grace Sample",
+    "RecognitionName": "Grace Sample",
+    "EmailInterestType": "All",
+    "PreferredCommunicationChannel": "Email",
+    "EmailIds": [
+        501002
+    ],
+    "PhoneIds": [],
+    "AddressIds": [],
+    "EngagementScore": "Medium",
+    "AuditTrail": {
+        "CreatedDate": "2024-03-04T15:20:00Z",
+        "CreatedName": "Example Staff User",
+        "LastModifiedDate": "2026-01-12T09:45:00Z",
+        "LastModifiedName": "Example Staff User"
+    },
+    "PrimaryEmail": {
+        "Id": 501002,
+        "AccountId": 1002,
+        "Type": "Home",
+        "Value": "grace@example.org",
+        "IsPrimary": true,
+        "IsBad": false
+    },
+    "Membership": [
+        {
+            "MembershipScheduleId": 9002,
+            "MembershipProgramName": "Example Membership Program",
+            "MembershipLevelName": "Annual",
+            "MembershipStatus": "Lapsed",
+            "MembershipRenewalDate": "2025-02-01"
+        },
+        {
+            "MembershipScheduleId": 9003,
+            "MembershipProgramName": "Example Membership Program",
+            "MembershipLevelName": "Annual",
+            "MembershipStatus": "Current",
+            "MembershipRenewalDate": "2027-02-01"
+        },
+        {
+            "MembershipScheduleId": 9004,
+            "MembershipProgramName": "Second Example Program",
+            "MembershipLevelName": "Supporter",
+            "MembershipStatus": "Pending Review",
+            "MembershipRenewalDate": ""
+        }
+    ]
+}
