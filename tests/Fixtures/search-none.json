@@ -35,11 +35,17 @@
             },
             "PrimaryEmail": {
                 "Id": 501010,
+                "IsBad": false,
                 "AccountId": 1010,
                 "Type": "Home",
                 "Value": "ada@example.org.uk",
                 "IsPrimary": true,
-                "IsBad": false
+                "AuditTrail": {
+                    "CreatedDate": "2024-03-04T15:20:00Z",
+                    "CreatedName": "Example Staff User",
+                    "LastModifiedDate": "2025-06-30T11:05:00Z",
+                    "LastModifiedName": "Example Staff User"
+                }
             }
         },
         {
@@ -73,11 +79,17 @@
             },
             "PrimaryEmail": {
                 "Id": 501011,
+                "IsBad": false,
                 "AccountId": 1011,
                 "Type": "Home",
                 "Value": "not-ada@example.org",
                 "IsPrimary": true,
-                "IsBad": false
+                "AuditTrail": {
+                    "CreatedDate": "2024-03-04T15:20:00Z",
+                    "CreatedName": "Example Staff User",
+                    "LastModifiedDate": "2025-06-30T11:05:00Z",
+                    "LastModifiedName": "Example Staff User"
+                }
             }
         }
     ]

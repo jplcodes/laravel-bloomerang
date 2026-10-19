@@ -7,8 +7,9 @@
         {
             "Id": 1001,
             "AccountNumber": 1,
-            "IsInHousehold": false,
-            "IsHeadOfHousehold": false,
+            "IsInHousehold": true,
+            "IsHeadOfHousehold": true,
+            "HouseholdId": 2001,
             "IsFavorite": false,
             "Type": "Individual",
             "Status": "Active",
@@ -35,11 +36,17 @@
             },
             "PrimaryEmail": {
                 "Id": 501001,
+                "IsBad": false,
                 "AccountId": 1001,
                 "Type": "Home",
                 "Value": "Ada@Example.org ",
                 "IsPrimary": true,
-                "IsBad": false
+                "AuditTrail": {
+                    "CreatedDate": "2024-03-04T15:20:00Z",
+                    "CreatedName": "Example Staff User",
+                    "LastModifiedDate": "2025-06-30T11:05:00Z",
+                    "LastModifiedName": "Example Staff User"
+                }
             }
         },
         {
@@ -73,11 +80,17 @@
             },
             "PrimaryEmail": {
                 "Id": 501010,
+                "IsBad": false,
                 "AccountId": 1010,
                 "Type": "Home",
                 "Value": "ada@example.org.uk",
                 "IsPrimary": true,
-                "IsBad": false
+                "AuditTrail": {
+                    "CreatedDate": "2024-03-04T15:20:00Z",
+                    "CreatedName": "Example Staff User",
+                    "LastModifiedDate": "2025-06-30T11:05:00Z",
+                    "LastModifiedName": "Example Staff User"
+                }
             }
         },
         {
@@ -108,8 +121,9 @@
         {
             "Id": 1012,
             "AccountNumber": 12,
-            "IsInHousehold": false,
+            "IsInHousehold": true,
             "IsHeadOfHousehold": false,
+            "HouseholdId": 2001,
             "IsFavorite": false,
             "Type": "Individual",
             "Status": "Active",

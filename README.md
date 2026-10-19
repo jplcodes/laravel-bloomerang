@@ -7,21 +7,13 @@ A small, tested Laravel client for [Bloomerang](https://bloomerang.com)'s REST A
 - Read-only data objects, explicit exceptions, a paginator, and a `request()` escape hatch for everything else.
 - Every call goes through Laravel's `Http` client, so `Http::fake()` works in your tests.
 
-> **Status: `0.x`.** Response shapes are built from Bloomerang's published OpenAPI specification and have not yet been checked against a live account. Expect breaking changes before `1.0`.
+> **Status: `0.x`.** Response shapes are built from Bloomerang's published OpenAPI specification and adjusted where a live account answered differently. Membership entries themselves (status strings, renewal dates) are still unconfirmed against live data. Expect breaking changes before `1.0`.
 
 ## Requirements
 
 PHP 8.3+ and Laravel 13.
 
 ## Installation
-
-The package isn't on Packagist yet. Add the repository to your `composer.json`, then require it:
-
-```json
-"repositories": [
-    { "type": "vcs", "url": "https://github.com/jplcodes/laravel-bloomerang" }
-]
-```
 
 ```bash
 composer require jplcodes/laravel-bloomerang:^0.1
@@ -101,6 +93,8 @@ That way a malformed response can never be mistaken for "not a member".
 | Timeout | 4 s (connect 2 s) | 30 s (connect 5 s) |
 | Retries | None | Up to 3, on 429, 5xx, and timeouts or network failures |
 
+Against a live account, reads took about 0.25 to 0.5 s (median) and search up to 0.8 s, so request mode's 4 s leaves plenty of room. A page that chains two calls, say a search and then a lookup, can wait up to twice that before it fails.
+
 ```php
 Bloomerang::constituents()->find($id);                // request mode
 Bloomerang::inJobMode()->constituents()->find($id);   // job mode
@@ -114,7 +108,7 @@ With the defaults, one job-mode call can take a little over two minutes before i
 
 ## Errors
 
-Everything extends `JplCodes\Bloomerang\Exceptions\BloomerangException`, which carries the HTTP `status` and the call's `correlationId`.
+Everything extends `JplCodes\Bloomerang\Exceptions\BloomerangException`, which carries the HTTP `status`, the call's `correlationId`, and the `errorCode` from Bloomerang's error body when there is one.
 
 | Exception | When |
 | --- | --- |
@@ -122,13 +116,13 @@ Everything extends `JplCodes\Bloomerang\Exceptions\BloomerangException`, which c
 | `NotFound` | 404 |
 | `RateLimited` | 429 (`retryAfterSeconds` when Bloomerang sent one) |
 | `ServerError` | 5xx |
-| `RequestRejected` | Any other 4xx, or a redirect |
+| `RequestRejected` | Any other 4xx (including a household id passed to `find()`), or a redirect |
 | `ConnectionFailed` | A timeout or network failure |
 | `UnexpectedResponse` | The response isn't JSON, or isn't the expected shape |
 | `MissingCredentials` | No API key or token is configured |
 | `MembershipDataMissing` | `memberships()` on a constituent without membership data |
 
-Exception messages hold the method, path, status, and correlation id. They never include the API key or the response body, which can contain donor details.
+Exception messages hold the method, path, status, and correlation id. They never include the API key or the response body, which can contain donor details. Error bodies look like `{"Message": "…", "ErrorCode": 123}`: the integer `ErrorCode` is kept on the exception as `errorCode`, and the `Message` text is dropped.
 
 ## Logging
 
@@ -181,8 +175,12 @@ Bloomerang has no sandbox, and a private API key has full read and write access 
 - **Bloomerang matches people on name plus one contact point** (email, phone, or address), never on email alone, and the duplicates endpoint (`/constituent/duplicates`) needs a first and last name. That's why `searchByEmail()` searches, then filters on the primary email itself.
 - **`GET /constituents?id=` takes ids joined with a pipe** (`id=1|2|3`), not repeated parameters. `findMany()` does this for you. Ids it can't return (a household's, for one) are left out without an error, and results don't come back in the order requested, so match them by `id`.
 - **Search returns households as well as people.** `search()` returns `Household` objects for them.
+- **`GET /constituent/{id}` answers a household's id with 400, not 404**, so `find()` throws `RequestRejected`. A person in a household carries the household's id as `HouseholdId` (in `raw`).
+- **Errors (400, 401, 404) share one body: `{Message, ErrorCode}`.**
+- **`PrimaryEmail` can be missing** from a constituent, in search results as well; `primaryEmail` is then `null`.
+- **Dates are `YYYY-MM-DDTHH:MM:SSZ`**, but some nested audit trails (a phone's, for one) leave off the `Z`.
 - **Page size is capped at 50.**
-- **No rate limits are documented.** Back off on errors, which job mode does.
+- **No rate limits are documented**, and a live account sent no `Retry-After` or rate-limit headers. Back off on errors, which job mode does.
 - **`POST /constituent` does no duplicate check.**
 
 ## License

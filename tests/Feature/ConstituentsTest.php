@@ -7,6 +7,7 @@ use Illuminate\Support\LazyCollection;
 use JplCodes\Bloomerang\Data\Constituent;
 use JplCodes\Bloomerang\Data\Household;
 use JplCodes\Bloomerang\Exceptions\NotFound;
+use JplCodes\Bloomerang\Exceptions\RequestRejected;
 use JplCodes\Bloomerang\Facades\Bloomerang;
 
 describe('find', function () {
@@ -33,6 +34,25 @@ describe('find', function () {
         Http::fake(['bloomerang.test/v2/constituent/*' => Http::response(status: 404)]);
 
         expect(fn () => Bloomerang::inJobMode()->constituents()->find(404404))->toThrow(NotFound::class);
+
+        Http::assertSentCount(1);
+    });
+
+    it('reads a constituent who belongs to a household', function () {
+        Http::fake(['bloomerang.test/v2/constituent/1012' => Http::response(bloomerangFixture('constituent-in-household'))]);
+
+        $constituent = Bloomerang::constituents()->find(1012);
+
+        expect($constituent->id)->toBe(1012)
+            ->and($constituent->primaryEmail)->toBe('charles@example.org')
+            ->and($constituent->raw['HouseholdId'])->toBe(2001)
+            ->and($constituent->memberships())->toBe([]);
+    });
+
+    it('throws RequestRejected for a household id, which Bloomerang answers with 400, without retrying', function () {
+        Http::fake(['bloomerang.test/v2/constituent/*' => Http::response(bloomerangFixture('error-400'), 400)]);
+
+        expect(fn () => Bloomerang::inJobMode()->constituents()->find(2001))->toThrow(RequestRejected::class);
 
         Http::assertSentCount(1);
     });
@@ -94,6 +114,17 @@ describe('findMany', function () {
         Http::fake(['bloomerang.test/v2/constituents*' => Http::response(constituentsPage([1]))]);
 
         expect(Bloomerang::constituents()->findMany([1, 2])->all())->toHaveCount(1);
+    });
+
+    it('returns constituents in the order Bloomerang sends them, so callers match by id', function () {
+        Http::fake(['bloomerang.test/v2/constituents*' => Http::response(constituentsPage([3, 1]))]);
+
+        $found = Bloomerang::constituents()->findMany([1, 2, 3])
+            ->keyBy(fn (Constituent $constituent) => $constituent->id);
+
+        expect($found->keys()->all())->toBe([3, 1])
+            ->and($found->has(2))->toBeFalse()
+            ->and($found->get(1)->id)->toBe(1);
     });
 
     it('sends nothing for an empty list', function () {

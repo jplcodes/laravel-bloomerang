@@ -177,13 +177,29 @@ final class Transport
     {
         $message = "Bloomerang returned {$status} for {$method} {$path} [correlation id {$correlationId}]";
 
+        $errorCode = $this->errorCode($response);
+
         return match (true) {
-            $status === 401 || $status === 403 => new AuthenticationFailed($message, $correlationId, $status),
-            $status === 404 => new NotFound($message, $correlationId, $status),
-            $status === 429 => new RateLimited($message, $correlationId, $status, $this->parseRetryAfter($this->retryAfterHeader($response))),
-            $status >= 500 => new ServerError($message, $correlationId, $status),
-            default => new RequestRejected($message, $correlationId, $status),
+            $status === 401 || $status === 403 => new AuthenticationFailed($message, $correlationId, $status, $errorCode),
+            $status === 404 => new NotFound($message, $correlationId, $status, $errorCode),
+            $status === 429 => new RateLimited($message, $correlationId, $status, $this->parseRetryAfter($this->retryAfterHeader($response)), $errorCode),
+            $status >= 500 => new ServerError($message, $correlationId, $status, $errorCode),
+            default => new RequestRejected($message, $correlationId, $status, $errorCode),
         };
+    }
+
+    /**
+     * The integer `ErrorCode` from an error body, or null when the body carries none. The body's `Message` is never kept.
+     */
+    private function errorCode(Response $response): ?int
+    {
+        $decoded = json_decode($response->body(), true);
+
+        if (! is_array($decoded) || ! is_int($decoded['ErrorCode'] ?? null)) {
+            return null;
+        }
+
+        return $decoded['ErrorCode'];
     }
 
     /**
