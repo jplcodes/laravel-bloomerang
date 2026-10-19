@@ -55,24 +55,27 @@ final readonly class Constituent
     }
 
     /**
+     * The live API sends the membership array as `Memberships`; the published specification calls it `Membership`.
+     * Both are read, and a `Memberships` key wins whenever it is present, even when null.
+     *
      * @param  array<string, mixed>  $data
      * @return list<array<string, mixed>>|null
      */
     private static function membershipDataFrom(array $data): ?array
     {
-        if (! array_key_exists('Membership', $data) || $data['Membership'] === null) {
+        $membership = array_key_exists('Memberships', $data) ? $data['Memberships'] : ($data['Membership'] ?? null);
+
+        if ($membership === null) {
             return null;
         }
 
-        $membership = $data['Membership'];
-
         if (! is_array($membership) || ! array_is_list($membership)) {
-            throw new UnexpectedResponse('Bloomerang constituent Membership must be a list.');
+            throw new UnexpectedResponse('Bloomerang constituent membership data must be a list.');
         }
 
         foreach ($membership as $entry) {
             if (! is_array($entry)) {
-                throw new UnexpectedResponse('Bloomerang constituent Membership entry must be an array.');
+                throw new UnexpectedResponse('Bloomerang constituent membership entry must be an array.');
             }
         }
 

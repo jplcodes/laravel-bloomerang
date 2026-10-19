@@ -44,8 +44,44 @@ it('refuses to read memberships when the membership key is absent', function () 
     $constituent->memberships();
 })->throws(MembershipDataMissing::class);
 
-it('treats a null membership value as absent', function () {
-    $constituent = Constituent::fromArray([...bloomerangFixture('constituent'), 'Membership' => null]);
+it('treats a null membership value as absent', function (string $key) {
+    $data = bloomerangFixture('constituent');
+    unset($data['Memberships']);
+
+    $constituent = Constituent::fromArray([...$data, $key => null]);
+
+    expect($constituent->hasMembershipData())->toBeFalse();
+})->with(['Memberships', 'Membership']);
+
+it('still reads the Membership key the specification documents', function () {
+    $data = bloomerangFixture('constituent-memberships-several');
+    $data['Membership'] = $data['Memberships'];
+    unset($data['Memberships']);
+
+    $constituent = Constituent::fromArray($data);
+
+    expect($constituent->hasMembershipData())->toBeTrue()
+        ->and(array_map(fn (Membership $membership) => $membership->status, $constituent->memberships()))
+        ->toBe(['Lapsed', 'Current', 'Pending Review']);
+});
+
+it('prefers the Memberships key the live API sends when both keys are present', function () {
+    $constituent = Constituent::fromArray([
+        ...bloomerangFixture('constituent'),
+        'Memberships' => [['MembershipStatus' => 'Current']],
+        'Membership' => [['MembershipStatus' => 'Lapsed']],
+    ]);
+
+    expect($constituent->memberships())->toHaveCount(1)
+        ->and($constituent->memberships()[0]->status)->toBe('Current');
+});
+
+it('treats a null Memberships value as absent even when the Membership key has entries', function () {
+    $constituent = Constituent::fromArray([
+        ...bloomerangFixture('constituent'),
+        'Memberships' => null,
+        'Membership' => [['MembershipStatus' => 'Current']],
+    ]);
 
     expect($constituent->hasMembershipData())->toBeFalse();
 });
@@ -64,16 +100,19 @@ it('rejects data without an id', function () {
     Constituent::fromArray($data);
 })->throws(UnexpectedResponse::class);
 
-it('rejects a membership value that is not a list', function () {
-    Constituent::fromArray([...bloomerangFixture('constituent'), 'Membership' => 'Current']);
-})->throws(UnexpectedResponse::class);
+it('rejects a membership value that is not a list', function (string $key) {
+    $data = bloomerangFixture('constituent');
+    unset($data['Memberships']);
+
+    Constituent::fromArray([...$data, $key => 'Current']);
+})->with(['Memberships', 'Membership'])->throws(UnexpectedResponse::class);
 
 it('rejects fields of the wrong type', function () {
     Constituent::fromArray([...bloomerangFixture('constituent'), 'FirstName' => ['not', 'a', 'string']]);
 })->throws(UnexpectedResponse::class);
 
 it('rejects a membership entry with fields of the wrong type', function () {
-    $constituent = Constituent::fromArray([...bloomerangFixture('constituent'), 'Membership' => [['MembershipStatus' => ['Current']]]]);
+    $constituent = Constituent::fromArray([...bloomerangFixture('constituent'), 'Memberships' => [['MembershipStatus' => ['Current']]]]);
 
     $constituent->memberships();
 })->throws(UnexpectedResponse::class);
