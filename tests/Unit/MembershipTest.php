@@ -4,14 +4,14 @@ use Carbon\CarbonImmutable;
 use JplCodes\Bloomerang\Data\Membership;
 
 it('keeps every field from the specification', function () {
-    $membership = Membership::fromArray(bloomerangFixture('constituent')['Membership'][0]);
+    $membership = Membership::fromArray(bloomerangFixture('constituent')['Memberships'][0]);
 
     expect($membership->scheduleId)->toBe(9001)
         ->and($membership->programName)->toBe('Example Membership Program')
         ->and($membership->levelName)->toBe('Annual')
         ->and($membership->status)->toBe('Current')
         ->and($membership->renewalDate)->toBe('2027-03-01')
-        ->and($membership->raw)->toBe(bloomerangFixture('constituent')['Membership'][0]);
+        ->and($membership->raw)->toBe(bloomerangFixture('constituent')['Memberships'][0]);
 });
 
 it('treats only the Current status as current', function (string $status, bool $isCurrent) {

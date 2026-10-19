@@ -35,7 +35,7 @@
         "IsPrimary": true,
         "IsBad": false
     },
-    "Membership": [
+    "Memberships": [
         {
             "MembershipScheduleId": 9001,
             "MembershipProgramName": "Example Membership Program",
