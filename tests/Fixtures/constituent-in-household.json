@@ -1,0 +1,67 @@
+{
+    "Id": 1012,
+    "AccountNumber": 12,
+    "IsInHousehold": true,
+    "IsHeadOfHousehold": false,
+    "HouseholdId": 2001,
+    "IsFavorite": false,
+    "Type": "Individual",
+    "Status": "Active",
+    "FirstName": "Charles",
+    "LastName": "Example",
+    "FullName": "Charles Example",
+    "InformalName": "Charles",
+    "FormalName": "Charles Example",
+    "EnvelopeName": "Charles Example",
+    "RecognitionName": "Charles Example",
+    "EmailInterestType": "All",
+    "PreferredCommunicationChannel": "Email",
+    "EmailIds": [
+        501012
+    ],
+    "PhoneIds": [
+        601012
+    ],
+    "AddressIds": [],
+    "EngagementScore": "Medium",
+    "AuditTrail": {
+        "CreatedDate": "2024-03-04T15:20:00Z",
+        "CreatedName": "Example Staff User",
+        "LastModifiedDate": "2026-01-12T09:45:00Z",
+        "LastModifiedName": "Example Staff User"
+    },
+    "PrimaryEmail": {
+        "Id": 501012,
+        "IsBad": false,
+        "AccountId": 1012,
+        "Type": "Home",
+        "Value": "charles@example.org",
+        "IsPrimary": true,
+        "AuditTrail": {
+            "CreatedDate": "2024-03-04T15:20:00Z",
+            "CreatedName": "Example Staff User",
+            "LastModifiedDate": "2025-06-30T11:05:00Z",
+            "LastModifiedName": "Example Staff User"
+        }
+    },
+    "PrimaryPhone": {
+        "Id": 601012,
+        "AccountId": 1012,
+        "Type": "Mobile",
+        "Extension": "",
+        "Number": "(555) 010-0112",
+        "IsPrimary": true,
+        "IsBad": false,
+        "AuditTrail": {
+            "CreatedDate": "2024-03-04T15:20:00",
+            "CreatedName": "Example Staff User",
+            "LastModifiedDate": "2025-06-30T11:05:00",
+            "LastModifiedName": "Example Staff User"
+        }
+    },
+    "GroupsDetails": [],
+    "CustomValues": [],
+    "CustomEmailInterests": [],
+    "GenerosityScore": "Low",
+    "Memberships": []
+}

@@ -29,10 +29,16 @@
     },
     "PrimaryEmail": {
         "Id": 501004,
+        "IsBad": false,
         "AccountId": 1004,
         "Type": "Home",
         "Value": "edsger@example.org",
         "IsPrimary": true,
-        "IsBad": false
+        "AuditTrail": {
+            "CreatedDate": "2024-03-04T15:20:00Z",
+            "CreatedName": "Example Staff User",
+            "LastModifiedDate": "2025-06-30T11:05:00Z",
+            "LastModifiedName": "Example Staff User"
+        }
     }
 }

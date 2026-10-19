@@ -3,6 +3,7 @@
     "Name": "Example Integration User",
     "Email": "integration@example.org",
     "IsActive": true,
+    "IsSupportUser": false,
     "SendTaskEmails": false,
     "UserName": "integration.user",
     "PendingEmail": null,
