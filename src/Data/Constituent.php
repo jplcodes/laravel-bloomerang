@@ -75,7 +75,7 @@ final readonly class Constituent
 
         foreach ($membership as $entry) {
             if (! is_array($entry)) {
-                throw new UnexpectedResponse('Bloomerang constituent Membership entry must be an array.');
+                throw new UnexpectedResponse('Bloomerang constituent membership entry must be an array.');
             }
         }
 
