@@ -86,7 +86,7 @@ You can also inject `JplCodes\Bloomerang\Bloomerang` instead of using the facade
 
 ### Membership data: absent vs. empty
 
-A constituent's `Membership` list means two different things depending on whether it is there at all:
+A constituent's membership list (`Memberships` in live responses) means two different things depending on whether it is there at all:
 
 - **Present and empty**: `hasMembershipData()` is `true` and `memberships()` returns `[]`. The person has no membership.
 - **Absent** (search results, a newly created constituent, or an unexpected response): `hasMembershipData()` is `false` and `memberships()` throws `MembershipDataMissing`.
@@ -174,11 +174,12 @@ Bloomerang has no sandbox, and a private API key has full read and write access 
 
 ## Things the documentation doesn't tell you
 
+- **The membership array is called `Memberships` in live responses**, not `Membership` as the specification says. The package reads both.
 - **Membership appears on only two endpoints**: `GET /constituent/{id}` and `GET /constituents`. Search and duplicate-check results don't include it, so look the constituent up by id afterwards.
 - **Membership status is free text.** The specification types it as a plain string. Expect `Current`, `Lapsed`, and `Canceled`, but handle anything else. The renewal date is also a plain string, and can be empty.
 - **Memberships can't be written, or queried by program,** through the API.
 - **Bloomerang matches people on name plus one contact point** (email, phone, or address), never on email alone, and the duplicates endpoint (`/constituent/duplicates`) needs a first and last name. That's why `searchByEmail()` searches, then filters on the primary email itself.
-- **`GET /constituents?id=` takes ids joined with a pipe** (`id=1|2|3`), not repeated parameters. `findMany()` does this for you.
+- **`GET /constituents?id=` takes ids joined with a pipe** (`id=1|2|3`), not repeated parameters. `findMany()` does this for you. Ids it can't return (a household's, for one) are left out without an error, and results don't come back in the order requested, so match them by `id`.
 - **Search returns households as well as people.** `search()` returns `Household` objects for them.
 - **Page size is capped at 50.**
 - **No rate limits are documented.** Back off on errors, which job mode does.
