@@ -76,6 +76,16 @@ it('prefers the Memberships key the live API sends when both keys are present', 
         ->and($constituent->memberships()[0]->status)->toBe('Current');
 });
 
+it('treats a null Memberships value as absent even when the Membership key has entries', function () {
+    $constituent = Constituent::fromArray([
+        ...bloomerangFixture('constituent'),
+        'Memberships' => null,
+        'Membership' => [['MembershipStatus' => 'Current']],
+    ]);
+
+    expect($constituent->hasMembershipData())->toBeFalse();
+});
+
 it('has no primary email when the constituent has none', function () {
     $data = bloomerangFixture('constituent');
     unset($data['PrimaryEmail']);
