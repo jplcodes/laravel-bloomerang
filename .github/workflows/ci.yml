@@ -67,3 +67,21 @@ jobs:
       - run: composer update --no-interaction --no-progress --prefer-dist ${{ matrix.dependencies == 'lowest' && '--prefer-lowest' || '' }}
 
       - run: composer test
+
+  # The single check to require on main. It runs even when an earlier job fails or is
+  # cancelled, because a skipped required check counts as passing.
+  ci:
+    if: always()
+    needs: [lint, tests]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Every job passed
+        run: |
+          if [ "$LINT" != success ] || [ "$TESTS" != success ]; then
+            echo "lint: $LINT, tests: $TESTS"
+            exit 1
+          fi
+        env:
+          LINT: ${{ needs.lint.result }}
+          TESTS: ${{ needs.tests.result }}
