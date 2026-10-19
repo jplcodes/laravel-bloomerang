@@ -12,7 +12,8 @@ final class RateLimited extends BloomerangException
         ?string $correlationId,
         ?int $status,
         public readonly ?int $retryAfterSeconds,
+        ?int $errorCode = null,
     ) {
-        parent::__construct($message, $correlationId, $status);
+        parent::__construct($message, $correlationId, $status, $errorCode);
     }
 }

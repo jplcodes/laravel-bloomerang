@@ -8,6 +8,7 @@ use InvalidArgumentException;
 use JplCodes\Bloomerang\CallMode;
 use JplCodes\Bloomerang\Data\Constituent;
 use JplCodes\Bloomerang\Data\Household;
+use JplCodes\Bloomerang\Exceptions\BloomerangException;
 use JplCodes\Bloomerang\Pagination\Paginator;
 use JplCodes\Bloomerang\Transport;
 
@@ -23,6 +24,11 @@ final class Constituents
         private readonly CallMode $mode,
     ) {}
 
+    /**
+     * Bloomerang answers a household's id here with 400, not 404, so that surfaces as `RequestRejected`.
+     *
+     * @throws BloomerangException
+     */
     public function find(int $id): Constituent
     {
         $data = $this->transport->send($this->mode, 'GET', "constituent/{$id}", expectObject: true);
